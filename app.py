@@ -35,15 +35,18 @@ def main():
 
     # Recognize speech using Google Speech Recognition
     try:
-        words = recognizer.recognize_google(audio)
-    except Exception as e:
+        words = recognizer.recognize_google(audio, language='ru-RU')
+    except sr.UnknownValueError as e:
         print(e)
-        logger.error(f"Input file: {input_file} cause this error: {e}")
+        logger.error(f"Couldn't recognize {input_file} at all (Error: {e})")
+    except sr.RequestError as e:
+        print(e)
+        logger.error(f"Check interner connection (or API-KEY failed) (Error: {e})")
     else:
         print(words)
 
         # TODO save to <input filename>.txt
 
-        
+
 if __name__ == '__main__':
     main()
