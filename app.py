@@ -38,13 +38,12 @@ def main():
     else:
         wav_filename = sys.argv[1]
 
-    # TODO get mp3, decode to wav, give this wav to sr to recognize
-    
+    # Instantiate recognizer
     recognizer = sr.Recognizer()
 
-    # open audio file and use it as source for recognizer
+    # Open audio file and use it as source for recognizer
     with sr.AudioFile(wav_filename) as source:
-        audio = recognizer.record(source=source, duration=20)
+        audio = recognizer.record(source=source, duration=30)
 
     # Recognize speech using Google Speech Recognition
     try:
@@ -56,9 +55,11 @@ def main():
         print(e)
         logger.error(f"Check interner connection (or API-KEY failed) (Error: {e})")
     else:
-        print(words)
+        # print(words)
 
-        # TODO save to <input filename>.txt
+        # Save to <input filename>.txt
+        with open(os.path.join(folder, filename + ".txt"), "w") as textfile:
+            textfile.write("".join(words))
 
 
 if __name__ == '__main__':
